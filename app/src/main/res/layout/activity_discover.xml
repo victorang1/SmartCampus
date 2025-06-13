@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/discover">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/lexend_deca_semibold"
+        android:text="Manajemen Informatika"
+        android:textColor="@color/text"
+        android:textSize="32sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_welcome" />
+
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/lexend_deca_regular"
+        android:text="Selamat Datang di Aplikasi Smart Campus\nJurusan Manajemen Informatika"
+        android:textColor="@color/secondary"
+        android:textSize="16sp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_start" />
+
+    <LinearLayout
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_fourteen_primary"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="24dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/lexend_deca_semibold"
+            android:text="Let’s Start"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_arrow_right" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
