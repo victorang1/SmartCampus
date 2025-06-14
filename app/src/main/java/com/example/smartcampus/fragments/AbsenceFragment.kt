@@ -2,7 +2,6 @@ package com.example.smartcampus.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +13,9 @@ import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.example.smartcampus.ApiClient
 import com.example.smartcampus.R
-import com.example.smartcampus.database.DataAccess
 import com.example.smartcampus.utils.SharedPreferencesUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -25,18 +25,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.CircleOptions
+import com.smartcampus.api.model.RemoteAbsenRequest
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class AbsenceFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var sharedPreferencesUtil: SharedPreferencesUtil
     private lateinit var mMap: GoogleMap
-    private lateinit var dataAccess: DataAccess
     
-    // Views
     private lateinit var tvWelcome: TextView
     private lateinit var tvName: TextView
     private lateinit var tvNim: TextView
@@ -51,11 +49,11 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
     private lateinit var tvAbsentDescription: TextView
     private lateinit var tvAbsentDescription2: TextView
 
-    private val campusLatLng = LatLng(-7.275973, 112.790337)
-    private val maxDistanceMeters = 100
+    private var currentJadwalId: Int? = null
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val DEFAULT_ZOOM = 17f
     }
 
     override fun onCreateView(
@@ -71,11 +69,10 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
         
         initializeViews(view)
         setupLocationServices()
-        setupDatabase()
         setupMap()
         updateDateTime()
         loadUserData()
-        setupClickListeners()
+        loadCurrentJadwal()
     }
 
     private fun setupMap() {
@@ -85,23 +82,6 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        
-        // Add campus marker
-        mMap.addMarker(MarkerOptions()
-            .position(campusLatLng)
-            .title("Kampus"))
-
-        // Add circle to show attendance radius
-        mMap.addCircle(CircleOptions()
-            .center(campusLatLng)
-            .radius(maxDistanceMeters.toDouble())
-            .strokeColor(ContextCompat.getColor(requireContext(), R.color.primary))
-//            .fillColor(ContextCompat.getColor(requireContext(), R.color.primary_transparent))
-        )
-
-        // Move camera to campus
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(campusLatLng, 17f))
-
         if (hasLocationPermission()) {
             enableMyLocation()
         }
@@ -119,7 +99,7 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
                     val currentLatLng = LatLng(it.latitude, it.longitude)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(currentLatLng))
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM))
                 }
             }
         }
@@ -139,21 +119,24 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
         cvAlreadyAbsence = view.findViewById(R.id.cv_already_absence)
         tvAbsentDescription = view.findViewById(R.id.tv_absent_description)
         tvAbsentDescription2 = view.findViewById(R.id.tv_absent_description_2)
+
+        btnAbsen.setOnClickListener {
+            if (hasLocationPermission()) {
+                markAttendance()
+            } else {
+                requestLocationPermission()
+            }
+        }
     }
 
     private fun setupLocationServices() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        sharedPreferencesUtil = SharedPreferencesUtil(requireContext())
         
         if (hasLocationPermission()) {
             startLocationUpdates()
         } else {
             requestLocationPermission()
         }
-    }
-
-    private fun setupDatabase() {
-        dataAccess = DataAccess()
     }
 
     private fun updateDateTime() {
@@ -163,18 +146,71 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun loadUserData() {
-        sharedPreferencesUtil.getMahasiswaData()?.let { mahasiswa ->
+        SharedPreferencesUtil.getMahasiswaData(requireContext())?.let { mahasiswa ->
             tvName.text = mahasiswa.nama
             tvNim.text = "NIM : ${mahasiswa.nim}"
         }
     }
 
-    private fun setupClickListeners() {
-        btnAbsen.setOnClickListener {
-            if (hasLocationPermission()) {
-                checkLocationAndMarkAttendance()
-            } else {
-                requestLocationPermission()
+    private fun loadCurrentJadwal() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val mahasiswaData = SharedPreferencesUtil.getMahasiswaData(requireContext())
+                val response = ApiClient.apiService.getCurrentJadwal(mahasiswaData?.nim.orEmpty())
+                if (response.success && response.data != null) {
+                    val jadwal = response.data
+                    currentJadwalId = jadwal.idJadwal
+                    
+                    tvTitle.text = jadwal.kodeMk
+                    tvSubTitle.text = jadwal.namaMk
+                    tvStudentName.text = jadwal.namaDosen
+                    tvDescription.text = jadwal.ruang
+                    tvTime.text = "${jadwal.jamMulai} - ${jadwal.jamSelesai}"
+
+                    checkAbsensiStatus()
+                } else {
+                    Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun checkAbsensiStatus() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val mahasiswaData = SharedPreferencesUtil.getMahasiswaData(requireContext())
+                if (mahasiswaData != null && currentJadwalId != null) {
+                    val response = ApiClient.apiService.checkAbsensi(mahasiswaData.nim, currentJadwalId!!)
+                    if (response.success && response.data != null) {
+                        val absensi = response.data
+                        if (absensi.hasAttended) {
+                            btnAbsen.visibility = View.GONE
+                            cvAlreadyAbsence.visibility = View.VISIBLE
+                            tvAbsentDescription.text = "Anda sudah absen sebagai: ${absensi.attendance?.statusKehadiran?.uppercase()}"
+                            tvAbsentDescription2.text = "Tercatat pukul: ${absensi.attendance?.waktuAbsen} WIB"
+
+                            // Update map with attendance location
+                            absensi.attendance?.let { attendance ->
+                                val attendanceLocation = LatLng(attendance.latitude, attendance.longitude)
+                                mMap.clear()
+                                mMap.addMarker(
+                                    MarkerOptions()
+                                        .position(attendanceLocation)
+                                        .title("Lokasi Absen")
+                                        .snippet("${attendance.waktuAbsen} WIB")
+                                )
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(attendanceLocation, DEFAULT_ZOOM))
+                            }
+                        } else {
+                            btnAbsen.visibility = View.VISIBLE
+                            cvAlreadyAbsence.visibility = View.GONE
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -201,91 +237,46 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
         if (hasLocationPermission()) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
-                    checkDistance(it)
                     updateCurrentLocation()
                 }
             }
         }
     }
 
-    private fun checkDistance(currentLocation: Location): Float {
-        val campusLocation = Location("").apply {
-            latitude = campusLatLng.latitude
-            longitude = campusLatLng.longitude
-        }
-        return currentLocation.distanceTo(campusLocation)
-    }
-
-    private fun checkLocationAndMarkAttendance() {
+    private fun markAttendance() {
         if (hasLocationPermission()) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 location?.let {
-                    val distance = checkDistance(it)
-                    if (distance <= maxDistanceMeters) {
-                        markAttendance(it.latitude, it.longitude)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Anda harus berada dalam radius ${maxDistanceMeters}m dari kampus",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                    submitAbsensi(it.latitude, it.longitude)
                 }
             }
         }
     }
 
-    private fun markAttendance(latitude: Double, longitude: Double) {
-        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
-        
-        // Get current user's NIM and jadwal ID
-        sharedPreferencesUtil.getMahasiswaData()?.let { mahasiswa ->
-            // Get the jadwal ID from your views
-            val jadwalId = tvTitle.text.toString()
+    private fun submitAbsensi(latitude: Double, longitude: Double) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val mahasiswaData = SharedPreferencesUtil.getMahasiswaData(requireContext())
+                if (mahasiswaData != null && currentJadwalId != null) {
+                    val request = RemoteAbsenRequest(
+                        nim = mahasiswaData.nim,
+                        idJadwal = currentJadwalId!!,
+                        latitude = latitude,
+                        longitude = longitude,
+                        statusKehadiran = "hadir"
+                    )
 
-            val query = """
-                INSERT INTO absensi (nim, id_jadwal, tanggal, waktu_absen, status_kehadiran, latitude, longitude, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
-            """.trimIndent()
-
-            val params: Array<Any> = arrayOf(
-                mahasiswa.nim,
-                jadwalId,
-                currentDate,
-                currentTime,
-                "hadir",
-                latitude.toString(),
-                longitude.toString()
-            )
-
-            dataAccess.executeUpdate(query, params, object : DataAccess.UpdateCallback {
-                override fun onSuccess(rowsAffected: Int) {
-                    requireActivity().runOnUiThread {
-                        // Hide the attendance button
-                        btnAbsen.visibility = View.GONE
-
-                        // Show the attendance confirmation card
-                        cvAlreadyAbsence.visibility = View.VISIBLE
-
-                        // Update attendance time
-                        tvAbsentDescription.text = "Anda sudah absen sebagai: HADIR"
-                        tvAbsentDescription2.text = "Tercatat pukul: $currentTime WIB"
-
-                        Toast.makeText(context, "Absensi berhasil disimpan!", Toast.LENGTH_SHORT).show()
+                    val response = ApiClient.apiService.submitAbsensi(request)
+                    if (response.success) {
+                        Toast.makeText(context, "Absensi berhasil", Toast.LENGTH_SHORT).show()
+                        checkAbsensiStatus()
+                    } else {
+                        Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-
-                override fun onError(e: Exception) {
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(
-                            context,
-                            "Gagal menyimpan absensi: ${e.message}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            })
+            } catch (e: Exception) {
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -306,10 +297,5 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
                 ).show()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        dataAccess.close()
     }
 } 

@@ -101,8 +101,10 @@ class HostActivity : AppCompatActivity() {
     private fun resetIcons() {
         // Reset Home
         ivHome.setImageResource(R.drawable.ic_home_unselected)
-        menuHome.layoutParams.width = resources.getDimensionPixelSize(R.dimen.icon_size_home_unselected)
-        menuHome.layoutParams.height = resources.getDimensionPixelSize(R.dimen.icon_size_home_unselected)
+        menuHome.layoutParams.width =
+            resources.getDimensionPixelSize(R.dimen.icon_size_home_unselected)
+        menuHome.layoutParams.height =
+            resources.getDimensionPixelSize(R.dimen.icon_size_home_unselected)
 
         // Reset Materi
         ivMateri.setImageResource(R.drawable.ic_materi_unselected)
@@ -129,6 +131,7 @@ class HostActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
             .commit()
     }
 } 

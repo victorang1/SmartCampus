@@ -2,67 +2,53 @@ package com.example.smartcampus.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.smartcampus.models.Dosen
-import com.example.smartcampus.models.Mahasiswa
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.smartcampus.api.model.RemoteDosen
+import com.smartcampus.api.model.RemoteMahasiswa
 
-class SharedPreferencesUtil(context: Context) {
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-    private val gson: Gson = GsonBuilder().create()
+object SharedPreferencesUtil {
+    private const val PREF_NAME = "SmartCampusPrefs"
+    private const val KEY_USER_TYPE = "user_type"
+    private const val KEY_USER_DATA = "user_data"
+    private const val USER_TYPE_MAHASISWA = "mahasiswa"
+    private const val USER_TYPE_DOSEN = "dosen"
 
-    companion object {
-        private const val PREF_NAME = "SmartCampusPrefs"
-        private const val KEY_USER_TYPE = "user_type"
-        private const val KEY_USER_DATA = "user_data"
-        private const val USER_TYPE_MAHASISWA = "mahasiswa"
-        private const val USER_TYPE_DOSEN = "dosen"
+    private fun getPrefs(context: Context): SharedPreferences {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
-    fun saveMahasiswaData(mahasiswa: Mahasiswa) {
-        with(sharedPreferences.edit()) {
+    fun saveMahasiswaData(context: Context, mahasiswa: RemoteMahasiswa) {
+        getPrefs(context).edit().apply {
             putString(KEY_USER_TYPE, USER_TYPE_MAHASISWA)
-            putString(KEY_USER_DATA, gson.toJson(mahasiswa))
+            putString(KEY_USER_DATA, Gson().toJson(mahasiswa))
             apply()
         }
     }
 
-    fun saveDosenData(dosen: Dosen) {
-        with(sharedPreferences.edit()) {
+    fun saveDosenData(context: Context, dosen: RemoteDosen) {
+        getPrefs(context).edit().apply {
             putString(KEY_USER_TYPE, USER_TYPE_DOSEN)
-            putString(KEY_USER_DATA, gson.toJson(dosen))
+            putString(KEY_USER_DATA, Gson().toJson(dosen))
             apply()
         }
     }
 
-    fun getMahasiswaData(): Mahasiswa? {
-        val userData = sharedPreferences.getString(KEY_USER_DATA, null)
-        return if (userData != null && isUserMahasiswa()) {
-            gson.fromJson(userData, Mahasiswa::class.java)
+    fun getMahasiswaData(context: Context): RemoteMahasiswa? {
+        val userData = getPrefs(context).getString(KEY_USER_DATA, null)
+        return if (userData != null && isUserMahasiswa(context)) {
+            Gson().fromJson(userData, RemoteMahasiswa::class.java)
         } else null
     }
 
-    fun getDosenData(): Dosen? {
-        val userData = sharedPreferences.getString(KEY_USER_DATA, null)
-        return if (userData != null && isUserDosen()) {
-            gson.fromJson(userData, Dosen::class.java)
-        } else null
+    fun isUserLoggedIn(context: Context): Boolean {
+        return getPrefs(context).contains(KEY_USER_TYPE)
     }
 
-    fun isUserLoggedIn(): Boolean {
-        return sharedPreferences.contains(KEY_USER_TYPE)
+    fun isUserMahasiswa(context: Context): Boolean {
+        return getPrefs(context).getString(KEY_USER_TYPE, "") == USER_TYPE_MAHASISWA
     }
 
-    fun isUserMahasiswa(): Boolean {
-        return sharedPreferences.getString(KEY_USER_TYPE, "") == USER_TYPE_MAHASISWA
-    }
-
-    fun isUserDosen(): Boolean {
-        return sharedPreferences.getString(KEY_USER_TYPE, "") == USER_TYPE_DOSEN
-    }
-
-    fun logout() {
-        sharedPreferences.edit().clear().apply()
+    fun logout(context: Context) {
+        getPrefs(context).edit().clear().apply()
     }
 } 

@@ -15,7 +15,7 @@ class DiscoverActivity : AppCompatActivity() {
 
         btnStart = findViewById<LinearLayout>(R.id.btn_start)
         btnStart.setOnClickListener {
-            val intent = Intent(this@DiscoverActivity, HostActivity::class.java)
+            val intent = Intent(this@DiscoverActivity, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }

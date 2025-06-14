@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.smartcampus.R
+import com.example.smartcampus.utils.SharedPreferencesUtil
 
 class SplashActivity : AppCompatActivity() {
 
@@ -14,9 +15,14 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@SplashActivity, DiscoverActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (SharedPreferencesUtil.isUserLoggedIn(this)) {
+                startActivity(Intent(this, HostActivity::class.java))
+                finish()
+            } else {
+                val intent = Intent(this@SplashActivity, DiscoverActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }, 1500)
     }
 }
