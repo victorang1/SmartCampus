@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rounded_fourteen_white"
+    android:layout_marginTop="16dp"
     android:padding="16dp">
 
     <TextView
@@ -14,7 +15,9 @@
         android:textColor="#465767"
         android:fontFamily="@font/lexend_deca_bold"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_classes"

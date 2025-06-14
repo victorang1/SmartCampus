@@ -73,6 +73,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")

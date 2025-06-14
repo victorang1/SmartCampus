@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.smartcampus.ApiClient
@@ -22,6 +21,7 @@ class HomeFragment : Fragment() {
     private lateinit var tvNim: TextView
     private lateinit var tvCourse: TextView
     private lateinit var llMahasiswa: LinearLayout
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +83,14 @@ class HomeFragment : Fragment() {
 
     private fun setupClickListeners() {
         llMahasiswa.setOnClickListener {
-            Toast.makeText(context, "Fitur akan segera hadir", Toast.LENGTH_SHORT).show()
+            loadFragment(KelasFragment())
         }
+    }
+
+    private fun loadFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 } 
