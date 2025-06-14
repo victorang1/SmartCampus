@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:tint="@color/black"
+                android:src="@drawable/ic_arrow_back" />
+
+            <TextView
+                android:id="@+id/tv_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend_deca_semibold"
+                android:layout_gravity="center"
+                android:text="Profil Mahasiswa"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:includeFontPadding="false"/>
+
+        </FrameLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/circle_primary" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/lexend_deca_extrabold"
+                    android:text="Rendy Kurniawan"
+                    android:textColor="#C23177"
+                    android:textSize="24sp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/tv_nim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lexend_deca_regular"
+                    android:text="062140832943"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lexend_deca_regular"
+                    android:text="Aktif"
+                    android:textColor="#4CAF50"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <!-- Contact Information Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Nomor Telepon"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="+62 812-3456-7890"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Email"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="rendy.kurniawan@student.polsri.ac.id"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Alamat Domisili"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Jl. Srijaya Negara, Bukit Besar, Palembang"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Agama"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_religion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Islam"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <!-- Academic Information Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Program Studi"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_program_studi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="D-IV Manajemen Informatika"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Jurusan"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_jurusan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Manajemen Informatika"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Angkatan"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_angkatan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="2021"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Dosen PA"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_dosen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Meivi Kusnandar, S.Kom., M.Kom"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <!-- Organizations and Achievements Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Organisasi Mahasiswa"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_ormawa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="UKM Simpony\nHIMI (Himpunan Mahasiswa Informatika)"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="Riwayat Prestasi"
+                    android:textColor="#DD3E81"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_prestasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/lexend_deca_semibold"
+                    android:text="• Juara 3 Video Competition - IPEC 2024\n• Best Paper Award - ICSET 2023"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>
