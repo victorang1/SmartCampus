@@ -95,11 +95,19 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateCurrentLocation() {
+        if (!isAdded) return
+        
         if (hasLocationPermission()) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                location?.let {
-                    val currentLatLng = LatLng(it.latitude, it.longitude)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM))
+            try {
+                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                    if (isAdded && location != null) {
+                        val currentLatLng = LatLng(location.latitude, location.longitude)
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, DEFAULT_ZOOM))
+                    }
+                }
+            } catch (e: Exception) {
+                if (isAdded) {
+                    Toast.makeText(context, "Error updating location: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -172,7 +180,15 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
                     Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                when {
+                    e is retrofit2.HttpException && e.code() == 404 -> {
+                        Toast.makeText(context, "Tidak ada jadwal aktif saat ini", Toast.LENGTH_SHORT).show()
+                        parentFragmentManager.popBackStack()
+                    }
+                    else -> {
+                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
@@ -191,7 +207,6 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
                             tvAbsentDescription.text = "Anda sudah absen sebagai: ${absensi.attendance?.statusKehadiran?.uppercase()}"
                             tvAbsentDescription2.text = "Tercatat pukul: ${absensi.attendance?.waktuAbsen} WIB"
 
-                            // Update map with attendance location
                             absensi.attendance?.let { attendance ->
                                 val attendanceLocation = LatLng(attendance.latitude, attendance.longitude)
                                 mMap.clear()
@@ -234,10 +249,20 @@ class AbsenceFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun startLocationUpdates() {
+        if (!isAdded) return
+        
         if (hasLocationPermission()) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                location?.let {
-                    updateCurrentLocation()
+            try {
+                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                    if (isAdded) {
+                        location?.let {
+                            updateCurrentLocation()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                if (isAdded) {
+                    Toast.makeText(context, "Error accessing location: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

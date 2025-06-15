@@ -51,7 +51,8 @@
                 android:padding="16dp"
                 android:orientation="vertical">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_avatar"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:layout_gravity="center_horizontal"
@@ -123,25 +124,6 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/lexend_deca_semibold"
                     android:text="D-IV Manajemen Informatika"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="@font/lexend_deca_semibold"
-                    android:text="Dosen PA"
-                    android:textColor="#DD3E81"
-                    android:textSize="18sp"/>
-
-                <TextView
-                    android:id="@+id/tv_dosen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/lexend_deca_semibold"
-                    android:text="Meivi Kusnandar, S.Kom., M.Kom"
                     android:textColor="@color/black"
                     android:textSize="18sp"/>
 

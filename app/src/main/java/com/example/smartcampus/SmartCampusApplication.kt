@@ -14,7 +14,6 @@ class SmartCampusApplication : Application() {
 
     private fun initializeMySQLDriver() {
         try {
-            // Register MySQL JDBC Driver from assets
             val classLoader = Thread.currentThread().contextClassLoader
             if (classLoader != null) {
                 val mysqlDriver = Class.forName("com.mysql.cj.jdbc.Driver").newInstance() as Driver

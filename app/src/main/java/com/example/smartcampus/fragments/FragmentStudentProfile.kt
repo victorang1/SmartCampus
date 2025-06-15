@@ -1,6 +1,8 @@
 package com.example.smartcampus.fragments
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.smartcampus.ApiClient
 import com.example.smartcampus.R
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.launch
 
 class FragmentStudentProfile : Fragment() {
@@ -19,9 +22,9 @@ class FragmentStudentProfile : Fragment() {
     private lateinit var tvDesc: TextView
     private lateinit var tvJurusan: TextView
     private lateinit var tvProgramStudi: TextView
-    private lateinit var tvDosen: TextView
     private lateinit var tvRiwayatOrganisasi: TextView
     private lateinit var tvPrestasi: TextView
+    private lateinit var ivAvatar: CircleImageView
     private var nim: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +52,9 @@ class FragmentStudentProfile : Fragment() {
         tvDesc = view.findViewById(R.id.tv_desc)
         tvJurusan = view.findViewById(R.id.tv_jurusan)
         tvProgramStudi = view.findViewById(R.id.tv_program_studi)
-        tvDosen = view.findViewById(R.id.tv_dosen)
         tvRiwayatOrganisasi = view.findViewById(R.id.tv_riwayat_organisasi)
         tvPrestasi = view.findViewById(R.id.rv_prestasi)
+        ivAvatar = view.findViewById(R.id.iv_avatar)
 
         view.findViewById<ImageView>(R.id.iv_back)?.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -74,9 +77,18 @@ class FragmentStudentProfile : Fragment() {
                     tvDesc.text = mahasiswa.kodeKelas
                     tvJurusan.text = mahasiswa.jurusan
                     tvProgramStudi.text = mahasiswa.programStudi
-//                    tvDosen.text = mahasiswa.dosenPa
-//                    tvRiwayatOrganisasi.text = mahasiswa.riwayatOrganisasi
-//                    tvPrestasi.text = mahasiswa.riwayatPrestasi
+                    tvRiwayatOrganisasi.text = mahasiswa.ormawa
+                    tvPrestasi.text = mahasiswa.riwayatPrestasi
+
+                    if (mahasiswa.fotoProfileUrl.isNotEmpty()) {
+                        try {
+                            val imageBytes = Base64.decode(mahasiswa.fotoProfileUrl, Base64.DEFAULT)
+                            val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                            ivAvatar.setImageBitmap(bitmap)
+                        } catch (e: Exception) {
+                            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
                     Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
                 }

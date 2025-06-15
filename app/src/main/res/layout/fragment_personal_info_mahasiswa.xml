@@ -36,7 +36,7 @@
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
@@ -52,6 +52,7 @@
 
         </FrameLayout>
 
+        <!-- Name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,10 +78,14 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 
+        <!-- NIM -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,10 +111,14 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 
+        <!-- Kelas -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,10 +144,14 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 
+        <!-- Birth Date -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -164,10 +177,14 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 
+        <!-- Gender -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -193,10 +210,14 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 
+        <!-- Phone -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -223,7 +244,10 @@
                 android:inputType="phone"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
         <!-- Email -->
@@ -253,10 +277,13 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
-        <!-- Alamat Domisili -->
+        <!-- Address -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -283,11 +310,14 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 
-        <!-- Agama -->
+        <!-- Religion -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -313,7 +343,10 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
         <!-- Program Studi -->
@@ -342,7 +375,10 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
         <!-- Jurusan / Fakultas -->
@@ -371,7 +407,10 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
         <!-- Angkatan / Tahun Masuk -->
@@ -401,7 +440,10 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
         <!-- Status Mahasiswa -->
@@ -430,7 +472,10 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
         </LinearLayout>
 
         <!-- Ormawa -->
@@ -459,7 +504,10 @@
                 android:fontFamily="@font/lexend_deca_regular"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionNext"/>
 
         </LinearLayout>
 
@@ -491,7 +539,10 @@
                 android:text="asdkflakdsfkadlf"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:background="@null" />
+                android:background="@null"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 

@@ -113,7 +113,6 @@ data class RemoteLoginResponse(
 ) {
     fun getMahasiswa(): RemoteMahasiswa? {
         return if (role == "mahasiswa" && user is Map<*, *>) {
-            // Convert Map to RemoteMahasiswa using Gson
             val gson = com.google.gson.Gson()
             val json = gson.toJson(user)
             gson.fromJson(json, RemoteMahasiswa::class.java)
@@ -122,10 +121,56 @@ data class RemoteLoginResponse(
 
     fun getDosen(): RemoteDosen? {
         return if (role == "dosen" && user is Map<*, *>) {
-            // Convert Map to RemoteDosen using Gson
             val gson = com.google.gson.Gson()
             val json = gson.toJson(user)
             gson.fromJson(json, RemoteDosen::class.java)
         } else null
     }
 }
+
+data class RemoteUpdateMahasiswaRequest(
+    @SerializedName("nama")
+    val nama: String? = null,
+
+    @SerializedName("email")
+    val email: String? = null,
+
+    @SerializedName("tanggal_lahir")
+    val tanggalLahir: String? = null,
+
+    @SerializedName("jenis_kelamin")
+    val jenisKelamin: String? = null,
+
+    @SerializedName("no_telepon")
+    val noTelepon: String? = null,
+
+    @SerializedName("alamat_domisili")
+    val alamatDomisili: String? = null,
+
+    @SerializedName("agama")
+    val agama: String? = null,
+
+    @SerializedName("program_studi")
+    val programStudi: String? = null,
+
+    @SerializedName("jurusan")
+    val jurusan: String? = null,
+
+    @SerializedName("angkatan")
+    val angkatan: String? = null,
+
+    @SerializedName("status_mahasiswa")
+    val statusMahasiswa: String? = null,
+
+    @SerializedName("ormawa")
+    val ormawa: String? = null,
+
+    @SerializedName("riwayat_prestasi")
+    val riwayatPrestasi: String? = null,
+
+    @SerializedName("foto_profile_url")
+    val fotoProfileUrl: String? = null,
+
+    @SerializedName("kode_kelas")
+    val kodeKelas: String? = null
+)

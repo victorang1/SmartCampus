@@ -38,18 +38,18 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/circle_primary" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
+                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/lexend_deca_extrabold"
                 android:text="Rendy Kurniawan"
                 android:textColor="#C23177"
@@ -148,37 +148,6 @@
                 android:background="@color/black" />
 
             <LinearLayout
-                android:id="@+id/ll_pengaturan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/circle_primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="12dp"
-                    android:fontFamily="@font/lexend_deca_regular"
-                    android:text="Pengaturan"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/black" />
-
-            <LinearLayout
                 android:id="@+id/ll_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,37 +167,6 @@
                     android:layout_marginStart="12dp"
                     android:fontFamily="@font/lexend_deca_regular"
                     android:text="Logout"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/black" />
-
-            <LinearLayout
-                android:id="@+id/ll_faq"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/circle_primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="12dp"
-                    android:fontFamily="@font/lexend_deca_regular"
-                    android:text="FAQ"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 

@@ -15,7 +15,10 @@ data class RemoteMahasiswaKelas(
     val nim: String = "",
 
     @SerializedName("nama")
-    val nama: String = ""
+    val nama: String = "",
+
+    @SerializedName("foto_profile_url")
+    val fotoProfileUrl: String? = null
 )
 
 data class RemoteNilai(

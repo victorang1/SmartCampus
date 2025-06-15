@@ -81,11 +81,27 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_schedules"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
-        tools:listitem="@layout/item_schedule"/>
+        android:layout_marginTop="12dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_schedules"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_schedule"/>
+
+        <TextView
+            android:id="@+id/tv_no_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tidak ada jadwal"
+            android:textSize="18sp"
+            android:fontFamily="@font/lexend_deca_regular"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
 </LinearLayout>

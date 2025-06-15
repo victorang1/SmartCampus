@@ -13,10 +13,12 @@ import com.smartcampus.api.model.RemoteMateriKuliah
 import com.smartcampus.api.model.RemoteNilai
 import com.smartcampus.api.model.RemoteProdiKelas
 import com.smartcampus.api.model.RemoteResponse
+import com.smartcampus.api.model.RemoteUpdateMahasiswaRequest
 import com.smartcampus.api.model.RemoteUploadTugasRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -82,10 +84,11 @@ interface ApiService {
         @Path("nim") nim: String
     ): RemoteResponse<RemoteMahasiswa>
 
-    @GET("mahasiswa/{nim}/calendar")
-    suspend fun getMahasiswaCalendar(
-        @Path("nim") nim: String
-    ): RemoteResponse<List<String>>
+    @PUT("mahasiswa/{nim}")
+    suspend fun updateMahasiswa(
+        @Path("nim") nim: String,
+        @Body request: RemoteUpdateMahasiswaRequest
+    ): RemoteResponse<RemoteMahasiswa>
 
     @GET("mahasiswa/{nim}/nilai")
     suspend fun getMahasiswaNilai(

@@ -2,6 +2,7 @@ package com.example.smartcampus.pages
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -9,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.smartcampus.R
 import com.example.smartcampus.fragments.AbsenceFragment
+import com.example.smartcampus.fragments.CalendarFragment
 import com.example.smartcampus.fragments.HomeFragment
 import com.example.smartcampus.fragments.MateriFragment
+import com.example.smartcampus.fragments.ProfileFragment
 
 class HostActivity : AppCompatActivity() {
     private lateinit var fabAbsence: FrameLayout
@@ -55,10 +58,8 @@ class HostActivity : AppCompatActivity() {
     }
 
     private fun onNavigationItemSelected(view: View) {
-        // Reset all icons to unselected state
         resetIcons()
 
-        // Set selected icon
         when (view.id) {
             R.id.menu_home -> {
                 ivHome.setImageResource(R.drawable.ic_home_selected)
@@ -84,7 +85,7 @@ class HostActivity : AppCompatActivity() {
                     resources.getDimensionPixelSize(R.dimen.icon_size_selected)
                 menuCalendar.layoutParams.height =
                     resources.getDimensionPixelSize(R.dimen.icon_size_selected)
-                loadFragment(MateriFragment())
+                loadFragment(CalendarFragment())
             }
 
             R.id.menu_profile -> {
@@ -93,34 +94,28 @@ class HostActivity : AppCompatActivity() {
                     resources.getDimensionPixelSize(R.dimen.icon_size_selected)
                 menuProfile.layoutParams.height =
                     resources.getDimensionPixelSize(R.dimen.icon_size_selected)
-                loadFragment(MateriFragment())
+                loadFragment(ProfileFragment())
             }
         }
     }
 
     private fun resetIcons() {
-        // Reset Home
         ivHome.setImageResource(R.drawable.ic_home_unselected)
-        menuHome.layoutParams.width =
-            resources.getDimensionPixelSize(R.dimen.icon_size_home_unselected)
-        menuHome.layoutParams.height =
-            resources.getDimensionPixelSize(R.dimen.icon_size_home_unselected)
+        menuHome.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        menuHome.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
 
-        // Reset Materi
         ivMateri.setImageResource(R.drawable.ic_materi_unselected)
         menuMateri.layoutParams.width =
             resources.getDimensionPixelSize(R.dimen.icon_size_unselected)
         menuMateri.layoutParams.height =
             resources.getDimensionPixelSize(R.dimen.icon_size_unselected)
 
-        // Reset Calendar
         ivCalendar.setImageResource(R.drawable.ic_calendar_unselected)
         menuCalendar.layoutParams.width =
             resources.getDimensionPixelSize(R.dimen.icon_size_unselected)
         menuCalendar.layoutParams.height =
             resources.getDimensionPixelSize(R.dimen.icon_size_unselected)
 
-        // Reset Profile
         ivProfile.setImageResource(R.drawable.ic_profile_unselected)
         menuProfile.layoutParams.width =
             resources.getDimensionPixelSize(R.dimen.icon_size_unselected)

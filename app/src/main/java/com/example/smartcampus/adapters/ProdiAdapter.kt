@@ -44,8 +44,7 @@ class ProdiAdapter(
                     addItemDecoration(SquareItemDecoration())
                 }
                 adapter = classAdapter
-                
-                // Force measure and layout after the view is laid out
+
                 post {
                     adapter?.notifyDataSetChanged()
                 }
